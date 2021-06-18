@@ -1,0 +1,47 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://maven.aliyun.com/repository/google/' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter/' }
+        maven { url 'http://download.flutter.io' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/releases/' }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.4.1'
+
+        classpath 'com.tencent.bugly:tinker-support:1.1.5'
+//        classpath 'com.github.magicbaby810:hannibal:1.0.7.3'
+        classpath 'com.github.magicbaby810:hannibalx:0.1'
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+
+        maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+        maven { url 'https://maven.aliyun.com/repository/google/' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter/' }
+        maven { url 'http://download.flutter.io' }
+        maven { url 'http://maven.aliyun.com/nexus/content/repositories/releases/' }
+    }
+}
+
+rootProject.buildDir = '../build'
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

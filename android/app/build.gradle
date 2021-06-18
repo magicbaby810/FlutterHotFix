@@ -1,0 +1,116 @@
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterRoot = localProperties.getProperty('flutter.sdk')
+if (flutterRoot == null) {
+    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'hannibal'
+apply from: 'tinker-support.gradle'
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
+android {
+    compileSdkVersion 29
+
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+
+    defaultConfig {
+        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        applicationId "com.sk.flutter_hot_fix"
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+    }
+
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig signingConfigs.debug
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+
+    // 指定tinker依赖版本（注：应用升级1.3.5版本起，不再内置tinker）
+    implementation 'com.tencent.tinker:tinker-android-lib:1.9.14.6'
+    implementation 'androidx.multidex:multidex:2.0.0'
+
+
+    implementation 'com.sk.flutterpatch:flutterpatch:0.0.7'
+
+    implementation 'com.tencent.bugly:crashreport_upgrade:latest.release'
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
+
+}
+
+flutter {
+    source '../..'
+}
+
+import com.hannibal.gradle.utils.*
+import org.objectweb.asm.*
+hannibal {
+    printLog true
+}
+//hannibal {
+//    //下面这个参数仅仅影响log输出，为本次修改命名，无实际意义，不配置也可以
+//    hannibalModifyName = 'Hannibal'
+//    //设置为true可以显示帮助内容，默认为true
+//    showHelp = true
+//    //下面的参数设置为true时会输出工程编译耗时信息
+//    watchTimeConsume = true
+//
+//    printLog = true
+//
+//    //this is the most important part
+//    modifyMatchMaps = [
+//            'io.flutter.app.FlutterApplication': [
+//                    ['methodName': 'onCreate', 'methodDesc': null, 'adapter': {
+//                        ClassVisitor cv, int access, String name, String desc, String signature, String[] exceptions ->
+//                            MethodVisitor methodVisitor = cv.visitMethod(access, name, desc, signature, exceptions);
+//                            MethodVisitor adapter = new MethodLogAdapter(methodVisitor) {
+//
+//                                @Override
+//                                void visitInsn(int opcode) {
+//                                    if (opcode == Opcodes.RETURN) {
+//                                        methodVisitor.visitVarInsn(Opcodes.ALOAD, 0)
+//                                        methodVisitor.visitMethodInsn(Opcodes.INVOKESTATIC,
+//                                                "com/sk/flutterpatch/FlutterPatch",
+//                                                "hook",
+//                                                "(Ljava/lang/Object;)V",
+//                                                false)
+//
+//                                        Log.info "============== adjust Flutter success =============="
+//                                    }
+//                                    super.visitInsn(opcode)
+//                                }
+//                            }
+//                            return adapter;
+//                    }]
+//            ]
+//    ]
+//}
