@@ -2,7 +2,6 @@
 
 ### 纯flutter项目下，利用tinker进行热更新的demo
 
-有网友问我纯Flutter项目是否能实现热修复，我想了下，没道理不可以啊。  
 
 之前做HotfixFliutter的时候，我在纯Flutter项目的android下尝试接入Tinker，
 但是在编译之后，就出现了[tinkerid不一致](https://github.com/Tencent/tinker/issues/1422)，然后就没继续跟进，到现在tinker开发组也没给这个Bug回应。但是网友提了要求，让我搞下，我就硬着头皮再试试。  
