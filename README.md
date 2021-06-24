@@ -50,7 +50,7 @@ classpath 'com.github.magicbaby810:hannibalx:0.1'
 
 4、运行gradle下面的assembleRelease任务。执行完成，回到FlutterHotFix下，点击左上角的Reload按钮 
 
-![image](Desktop/1624542146075.jpg)  
+![image](https://github.com/magicbaby810/FlutterHotFix/blob/master/screenshots/1624542146075.jpg)  
 
 安装build->bakApk->带有日期文件夹->app-release.apk。   
 
