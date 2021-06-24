@@ -41,4 +41,30 @@ classpath 'com.github.magicbaby810:hannibalx:0.1'
 
 ## 我真是个人才啊！
 
+### Demo运行
+1、打开工程，进入pubspec.yaml，点击Pub get，执行完成。  
+
+2、File->open...->android目录->open->New Window。
+  
+3、Application->Bugly.init(this, "34c01a08f1", true);->输入你的buglyId。
+
+4、运行gradle下面的assembleRelease任务。执行完成，回到FlutterHotFix下，点击左上角的Reload按钮 
+
+![image](Desktop/1624542146075.jpg)  
+
+安装build->bakApk->带有日期文件夹->app-release.apk。   
+
+5、去FlutterHotFix项目下修改dart代码，以及添加加载图片资源。修改完后回到android项目下，把build->bakApk下生成目录上的安装日期抄写到tinker-support.gradle里的baseApkDir里，同时把tinkerId改成`x.x.x-patch`。执行tinker-support->buildTinkerPatchRelease。
+
+6、执行完后，在build->outputs->patch这个文件夹是空的，莫慌，再执行一次tinker-support->buildTinkerPatchRelease，这时候再看文件夹有补丁了，莫怕，里面的tinkerId没有变。
+
+7、进入bugly官网，打开热更新页面，点击发布新补丁，上传补丁build->outputs->patch->patch_signed_7zip.apk。点击全量设备（只限测试，别整个生产的bugly id进来啊），立即下发。稍微等待那么一小会，杀掉应用，再重新打开，会出现 
+
+![image](https://github.com/magicbaby810/HotfixFlutter/blob/master/screenshot/QQ20200624-191212@2x.png)
+
+代表补丁已经打上去了，杀掉应用，再次打开进去flutter页面，修复成功！
+
+![image](https://github.com/magicbaby810/HotfixFlutter/blob/master/screenshot/WX20200629-103028.png)
+
+
 大家在使用的时候有什么问题，都可以来 麻花疼：1151212481 找我咨询
