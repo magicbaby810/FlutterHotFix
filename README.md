@@ -26,7 +26,7 @@ FlutterInjector.instance().flutterLoader().startInitialization(this);
 来初始化Flutter，那就好办了，只要在这个方法下插桩就行了，但是之前的hannibal没办法区分当前项目是否是纯Flutter，所以另起个gradle项目，把这个位置给hook处理下，上传到jitpack上  
 
 ```
-classpath 'com.github.magicbaby810:hannibalx:0.1'
+classpath 'com.github.magicbaby810:hannibalx:0.2'
 ```
 #### 四 跑流程
 配置到项目中，接下来还是跑一遍tinker的操作流程，发现一个大坑，在执行bindTinkerPatchRelease的时候，在build->app->outputs->patch，这个目录生成补丁后，会很快被删除，等于我要盯着这个补丁目录，一旦生成，赶紧copy出去一份，真TMD拼手速啊。
