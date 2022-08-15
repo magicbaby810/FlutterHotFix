@@ -4,7 +4,25 @@
 
 
 之前做HotfixFliutter的时候，我在纯Flutter项目的android下尝试接入Tinker，
-但是在编译之后，就出现了[tinkerid不一致](https://github.com/Tencent/tinker/issues/1422)，然后就没继续跟进，到现在tinker开发组也没给这个Bug回应。但是网友提了要求，让我搞下，我就硬着头皮再试试。  
+但是在编译之后，就出现了[tinkerid不一致](https://github.com/Tencent/tinker/issues/1422)，然后就没继续跟进，到现在tinker开发组也没给这个Bug回应。但是网友提了要求，让我搞下，我就硬着头皮再试试。 
+
+仅在android 12上热修flutter的图片资源会出现空白的情况。
+感觉跟FlutterSurfaceView渲染有关，第一帧刷了个空白到界面上。
+把默认的`RenderMode.surface`，改成`RenderMode.texture`或`RenderMode.image`就没问题。
+具体的详细原因能力有限，还没分析出来。
+
+```
+	public class MainActivity extends FlutterActivity {
+	    @NonNull
+	    @Override
+	    public RenderMode getRenderMode() {
+	        return RenderMode.texture;
+	    }
+	}
+
+```
+
+ 
 
 #### 一 新建纯Flutter项目  
 [FlutterHotFix](https://github.com/magicbaby810/FlutterHotFix)  
